@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Railway Crowd Monitoring</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ───────────── HEADER / HERO ───────────── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🚆</span>
+        <div class="logo-text">
+          <span class="logo-title">RailWatch AI</span>
+          <span class="logo-sub">Smart Crowd Monitoring System</span>
+        </div>
+      </div>
+      <nav class="header-nav">
+        <a href="#complaint">Report</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#how-it-works">How It Works</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ───────────── HERO SECTION ───────────── -->
+    <section class="hero">
+      <div class="hero-track"></div>
+      <div class="hero-content">
+        <div class="hero-badge">AI-Powered · Real-Time · Railway Safety</div>
+        <h1 class="hero-title">
+          Crowd Intelligence<br />
+          <span class="accent">for India's Railways</span>
+        </h1>
+        <p class="hero-desc">
+          Report coach overcrowding instantly. Our AI analyzes passenger complaints,
+          classifies severity, and recommends real-time actions for railway authorities.
+        </p>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">Monitoring</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-num">AI</span><span class="stat-label">Powered Analysis</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-num">&lt;5s</span><span class="stat-label">Response Time</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────── COMPLAINT FORM ───────────── -->
+    <section class="section" id="complaint">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Passenger Report</span>
+          <h2>Submit a Crowd Complaint</h2>
+          <p>Describe the situation in your coach. The AI will analyze and classify the issue.</p>
+        </div>
+
+        <div class="form-card">
+          <div class="form-grid">
+            <div class="field">
+              <label for="coach">Coach Number</label>
+              <input type="text" id="coach" placeholder="e.g. S5, B1, A2" maxlength="6" />
+            </div>
+            <div class="field">
+              <label for="route">Train Route</label>
+              <input type="text" id="route" placeholder="e.g. Delhi → Mumbai" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="complaint">Describe the Situation</label>
+            <textarea
+              id="complaint"
+              rows="5"
+              placeholder="Example: Coach S5 is severely overcrowded. Passengers are standing in the aisle and luggage is blocking the door. Several people don't have confirmed seats and are creating a safety hazard near the toilet area."
+            ></textarea>
+          </div>
+
+          <button class="btn-analyze" id="analyzeBtn" onclick="analyzeComplaint()">
+            <span class="btn-icon">🔍</span>
+            Analyze Complaint
+          </button>
+        </div>
+
+        <!-- AI RESULT CARD — hidden until response arrives -->
+        <div class="result-card" id="resultCard" style="display:none;">
+          <div class="result-header">
+            <span class="result-title">AI Analysis Result</span>
+            <span class="result-badge" id="severityBadge">—</span>
+          </div>
+          <div class="result-grid">
+            <div class="result-item">
+              <span class="result-label">Problem Category</span>
+              <span class="result-value" id="resProblem">—</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Crowd Severity</span>
+              <span class="result-value" id="resSeverity">—</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Risk Level</span>
+              <span class="result-value" id="resRisk">—</span>
+            </div>
+          </div>
+          <div class="result-action">
+            <span class="result-label">Recommended Railway Action</span>
+            <p id="resAction">—</p>
+          </div>
+        </div>
+
+        <!-- Loading indicator -->
+        <div class="loading" id="loadingIndicator" style="display:none;">
+          <div class="train-loader">
+            <span>🚆</span>
+            <div class="track-dots">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          <p>AI is analyzing your complaint…</p>
+        </div>
+
+        <!-- Error message -->
+        <div class="error-card" id="errorCard" style="display:none;">
+          <span>⚠️</span>
+          <p id="errorMsg">Something went wrong. Please try again.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ───────────── LIVE DASHBOARD ───────────── -->
+    <section class="section section-dark" id="dashboard">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Live Dashboard</span>
+          <h2>Coach Occupancy Monitor</h2>
+          <p>Real-time crowd status across all coaches on the current route.</p>
+        </div>
+
+        <div class="dashboard-grid" id="dashboardGrid">
+          <!-- Coach cards rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────── HOW IT WORKS ───────────── -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Process</span>
+          <h2>How It Works</h2>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-icon">📝</div>
+            <div class="step-line"></div>
+            <h3>Passenger Report</h3>
+            <p>A passenger submits a complaint describing overcrowding, safety concerns, or irregularities in their coach.</p>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-icon">🤖</div>
+            <div class="step-line"></div>
+            <h3>AI Analysis</h3>
+            <p>Google Gemini AI processes the complaint, classifies the problem category, estimates crowd severity, and assesses risk level.</p>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-icon">🚦</div>
+            <div class="step-line"></div>
+            <h3>Railway Action</h3>
+            <p>Authorities receive a prioritized recommendation — from deploying RPF personnel to rerouting passengers to alternate coaches.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ───────────── FOOTER ───────────── -->
+  <footer class="site-footer">
+    <div class="container">
+      <span>🚆 RailWatch AI — Hackathon Project</span>
+      <span>Built with Google Gemini API</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

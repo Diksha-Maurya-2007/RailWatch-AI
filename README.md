@@ -1,6 +1,8 @@
 # RailWatch AI — Smart Railway Crowd Monitoring System
 
-A hackathon project built to address real-time overcrowding issues in Indian Railways using AI-powered complaint analysis.
+An AI-powered system that analyzes passenger complaints to detect and manage coach overcrowding in Indian Railways, delivering real-time actionable insights for railway authorities.
+
+
 
 ## Problem Statement
 
